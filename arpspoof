@@ -29,7 +29,7 @@ def getHwAddr(ifname):
         
 def main():
     parser = ArgumentParser(description="just another ARP spoof tool") 
-    parser.add_argument('-s', dest='sourceMAC', default=getHwAddr('eth0'), help='source MAC of attacker (default = eth0 MAC)')
+    parser.add_argument('-i','--iface', default='eth0', help='Interface you wish to use')
     parser.add_argument('-d', dest='delay', type=float, default=1.0, help='delay in seconds between packet broadcasts (default = 1 second)')
     parser.add_argument('--full-duplex',dest='full_duplex', action='store_true', default=False, help='spoof in both directions (default = false, only targetIP)')
     parser.add_argument('impersonateIP', help='IP to impersonate (example: local gateway)')
@@ -39,10 +39,11 @@ def main():
     
     targetIP        = parsed_args.targetIP
     impersonateIP   = parsed_args.impersonateIP
-    sourceMAC       = parsed_args.sourceMAC
+    iface           = parsed_args.iface
+    sourceMAC       = getHWAddr(iface)
     delay           = parsed_args.delay
     full_duplex     = parsed_args.full_duplex
-    iface = 'eth0'
+    
     
     targetMAC = getMacOfIP(targetIP, iface, impersonateIP)
 
